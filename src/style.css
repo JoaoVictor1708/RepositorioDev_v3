@@ -4,24 +4,32 @@
     box-sizing: border-box;
     font-family: "Nunito", sans-serif;
     transition: 0.5s;
+    color: var(--black01--);
+}
+
+body, html{
+    max-width: 100dvw;
+    width: 100%;
+    background-color: var(--white02--);
 }
 
 :root{
     font-size: 62.5%;
-    --gray01--: #D9D9D9;
-    --gray02--: #282727;
-    --white01--: #f2f2f2;
-    --blue01--: #053cf3;
-    --blue02--: #0047f9;
-}
-
-.darkModeTheme{
     --black01--: #000;
     --gray01--: #D9D9D9;
     --gray02--: #282727;
     --white01--: #f2f2f2;
-    --blue01--: #053cf3;
-    --blue02--: #0047f9;
+    --white02--: #f2f2f2;
+    --blue01--: #0047f9;
+}
+
+.darkModeTheme{
+    --black01--: #f2f2f2;
+    --gray01--: #292929;
+    --gray02--: #141414;
+    --white01--: #000;
+    --white02--: #1f1f1f;
+    --blue01--: #0047f9;
 }
 
 .principalHeader{
@@ -33,6 +41,7 @@
     left: 0;
     right: 0;
     top: 0;
+    box-shadow: 0 .3rem .8rem #000;
 
     .headerContent{
         display: flex;
@@ -83,16 +92,6 @@
             gap: 1rem;
             align-items: center;
 
-            .translateBtn{
-                background-color: var(--blue02--);
-                padding: 0.5rem 1rem;
-                color: var(--white01--);
-                border: none;
-                border-radius: 0.8rem;
-                height: 3rem;
-                font-weight: 600;
-            }
-
             .toggleTheme{
                 background-color: var(--gray02--);
                 width: 6.8rem;
@@ -124,6 +123,75 @@
         }
     }
 }
+
+.content{
+    width: 100%;
+    max-width: 1024px;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    justify-content: center;
+    padding: 8rem 5rem;
+    background-color: var(--gray01--);
+    box-shadow: 0 0 .8rem #000;
+
+    .apresentation{
+        width: 100%;
+        justify-content: space-between;
+        display: flex;
+        align-items: center;
+        margin: 5rem 0;
+
+        .aboutMe{
+            width: 100%;
+            max-width: 60rem;
+            display: flex;
+            flex-direction: column;
+
+            h1{
+                font-size: 2.2rem;
+                font-weight: 700;
+                margin-bottom: 1rem;
+            }
+            p{
+                font-size: 1.8rem;
+                font-weight: 600;
+                margin-bottom: 1rem;
+            }
+            .seeMyProjects{
+                margin: 0 auto;
+                padding: 2.5rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.4rem;
+            }
+        }
+
+        img{
+            width: 25rem;
+            height: 25rem;
+            background-color: var(--gray02--);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            outline: 2px solid;
+            outline-color: var(--black01--);
+        }
+    }
+}
+
+.casualBtn {
+                background-color: var(--blue01--);
+                padding: 0.5rem 1rem;
+                color: #f2f2f2;
+                border: none;
+                border-radius: 0.8rem;
+                height: 3rem;
+                font-weight: 600;
+            }
 
 @keyframes toggleThemeAnimation {
     from{
