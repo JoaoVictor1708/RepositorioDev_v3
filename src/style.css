@@ -22,6 +22,7 @@ body, html{
     --white01--: #f2f2f2;
     --white02--: #f2f2f2;
     --blue01--: #0047f9;
+    --blue02--: #0074f9;
 }
 
 .darkModeTheme{
@@ -180,6 +181,7 @@ body, html{
             align-items: center;
             outline: 2px solid;
             outline-color: var(--black01--);
+            box-shadow: 0 0 10px 3px black;
         }
     }
 
@@ -188,14 +190,14 @@ body, html{
         flex-direction: column;
         h2{
             font-size: 2rem;
-            margin: 1rem;
+            margin: 0.2rem 2rem;
         }
         .scrollProjects{
-            gap: .5rem;
             overflow-x: auto;
+            overflow-y: hidden;
             white-space: nowrap;
             border-radius: .8rem;
-            padding-bottom: .5rem;
+            padding: .5rem 1rem;
 
             .cardProject{
                 width: 26rem;
@@ -206,6 +208,12 @@ body, html{
                 border: 1px solid var(--gray02--);
                 overflow: hidden;
                 cursor: pointer;
+                margin-right: 1rem;
+
+                animation-name: appear ;
+                animation-duration: 0.5s;
+                animation-timing-function: linear;
+                animation-fill-mode: backwards;
 
                 img{
                     width: 100%;
@@ -228,6 +236,10 @@ body, html{
                     }
                 }
             }
+
+            .cardProject:hover{
+                transform: scale(1.02);
+            }
         }
     }
 }
@@ -241,8 +253,112 @@ body, html{
     height: 3rem;
     font-weight: 600;
     cursor: pointer;
+    transition: 0.4s;
 }
 
+.casualBtn:hover{
+    transform: scale(1.02);
+    background-color: var(--blue02--);
+    box-shadow: 0 0 10px 1px var(--blue02--);
+}
+
+/* Card Expandido */
+.bodyCardExpanded{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #00000050;
+
+    animation-name: appear ;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-fill-mode:both;
+
+    .cardExpanded{
+        position: relative;
+        max-width: 80rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--white02--);
+        padding: 2rem;
+        border-radius: 1.6rem;
+        box-shadow: 0 0 10px 2px #000;
+
+        animation-name: appear ;
+        animation-duration: 0.5s;
+        animation-timing-function: linear;
+        animation-fill-mode:both;
+
+        h3{
+            font-size: 1.8rem;
+            margin: 0 auto 1rem;
+        }
+
+        img{
+            box-shadow: 0 0 5px 1px #000; 
+            border-radius: .8rem;
+        }
+
+        p{
+            font-size: 1.6rem;
+        }
+
+        .cardTechnologies{
+            display: flex;
+            gap: 5px;
+            margin-top: .5rem;
+
+            *{
+                padding: .1rem .4rem;
+                border-radius: .8rem;
+            }
+
+            .JavaScriptClass{
+                background-color: #fffb00;
+                color: black;
+            }
+
+            .HtmlClass{
+                background-color: #ff1e00;
+                color: white;
+            }
+
+            .CssClass{
+                background-color: #009ef9;
+                color: white;
+            }
+        }
+
+        .cardTechnologies::before{
+            content: "Tecnologias";
+            font-size: 1.7rem;
+            font-weight: 600;
+        }
+
+        .fa-x{
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            cursor: pointer;
+            font-size: 1.6rem;
+            color: var(--black01--);
+        }
+        .fa-x:hover{
+            color: red;
+            transform: rotate(180deg);
+        }
+    }
+}
+
+
+
+/* Melhorando o visual do Scroll */
 ::-webkit-scrollbar{
     width: 0.75rem;
     height: 0.75rem;
@@ -265,6 +381,7 @@ body, html{
     width: 0.75rem;
 }
 
+/* Keyframes */
 @keyframes toggleThemeAnimation {
     from{
 
@@ -280,5 +397,31 @@ body, html{
     }
     to{
         transform: translateX(0);
+    }
+}
+
+@keyframes appear {
+    0%{
+        opacity: 0;
+        transform: translateY(2rem);
+    }
+    50%{
+        opacity: 0.5;
+        transform: translateY(-0.1rem);
+    }
+    100%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes desappear {
+    0%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100%{
+        opacity: 0;
+        transform: translateY(-2rem);
     }
 }
