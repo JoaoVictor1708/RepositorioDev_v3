@@ -36,18 +36,17 @@ function loadDataCards (destiny, fileArray){
     }
 }
 
-// dataCards
+// projectCards
 const myProjectsContainer = document.querySelector("#myProjectsContainer")
-
 loadDataCards(myProjectsContainer, myProjectsContainerArray)
 
 myProjectsContainer.addEventListener("click", (event)=>{
-    event.preventDefault()
     const target = event.target
     const targetId = target.closest("div").id
     expandCard(targetId, myProjectsContainerArray)
 })
 
+//Função para click no card = expandir o card
 function expandCard(targetId, fileArray){
     const indexCard = targetId
     
@@ -87,19 +86,19 @@ function expandCard(targetId, fileArray){
     bodyCardExpanded.append(cardDiv)
     document.body.append(bodyCardExpanded)
     
-    cardClose.addEventListener("click", (event)=>{
-        event.preventDefault()
+    bodyCardExpanded.addEventListener("click", (event)=>{
         const target = event.target
-        const divThatWillBeDeleted = target.closest("div")
-        divThatWillBeDeleted.style.animationDuration = "0.3s"
-        divThatWillBeDeleted.style.animationName = "desappear"
-        bodyCardExpanded.style.animationDuration = "0.3s"
-        bodyCardExpanded.style.animationName = "desappear"
-        setInterval(() => {
-            divThatWillBeDeleted.remove()
-            bodyCardExpanded.remove()
-        }, 500);
-    })
+        if(target === bodyCardExpanded || target === cardClose){
+            cardDiv.style.animationDuration = "0.3s"
+            cardDiv.style.animationName = "desappear"
+            bodyCardExpanded.style.animationDuration = "0.3s"
+            bodyCardExpanded.style.animationName = "desappearV3"
+            setTimeout(() => {
+                cardDiv.remove()
+                bodyCardExpanded.remove()
+            }, 500);
+            }
+        })
 }
 
 // scrollSections
@@ -110,20 +109,14 @@ function changeToProjectsSection(){
     document.querySelector("#headerRadio02").checked = true
 }
 
-const seeMyProjectsBtn = document.querySelector(".seeMyProjectsBtn")
-seeMyProjectsBtn.addEventListener("click", ()=>{
-    changeToProjectsSection()
-})
-document.querySelector("#headerProjectsP").addEventListener("click", ()=>changeToProjectsSection())
+document.querySelector(".seeMyProjectsBtn").addEventListener("click", ()=>changeToProjectsSection())
 
 document.querySelector("#headerAboutMeP").addEventListener("click", ()=>{
     document.querySelector("#headerRadio01").checked = true
     document.querySelector(".contentScroll").style.marginLeft = "0"
 })
 
-document.querySelector("#headerProjectsP").addEventListener("click", ()=>{
-    changeToProjectsSection()
-})
+document.querySelector("#headerProjectsP").addEventListener("click", ()=>changeToProjectsSection())
 
 document.querySelector("#headerServicesP").addEventListener("click", ()=>{
     document.querySelector("#headerRadio03").checked = true
@@ -135,23 +128,25 @@ document.querySelector("#headerFormationsP").addEventListener("click", ()=>{
     document.querySelector(".contentScroll").style.marginLeft = "-300%"
 })
 
-//ScrollMenuBtn
+// appearDesappearFunction
+function appearDesappear (item, animation1, animation2){
+    if(item.classList[1] === "divActived"){
+        item.classList.remove("divActived")
+        item.classList.add("divDesactived")
+        item.style.animationName = animation1
+    } else{
+        item.classList.remove("divDesactived")
+        item.classList.add("divActived")
+        item.style.animationName = animation2
+    }
+}
+
+//ScrollMenu
 const scrollMenuBtn = document.querySelector(".scrollMenuBtn")
 const scrollMenu = document.querySelector(".headerSections")
-scrollMenu.classList.add("scrollMenuBtnDesactived")
-scrollMenuBtn.style.transform = "rotate(135deg)"
-scrollMenuBtn.classList.add("scrollMenuBtnDesactived")
+
+scrollMenu.classList.add("divDesactived")
 scrollMenuBtn.addEventListener("click", ()=>{
-    if(scrollMenu.classList[1] === "scrollMenuBtnActived"){
-        scrollMenu.classList.remove("scrollMenuBtnActived")
-        scrollMenu.classList.add("scrollMenuBtnDesactived")
-        scrollMenu.style.animationName = "appearV3"
-        scrollMenuBtn.style.transform = "rotate(135deg)"
-    }
-    else{
-        scrollMenu.classList.remove("scrollMenuBtnDesactived")
-        scrollMenu.classList.add("scrollMenuBtnActived")
-        scrollMenu.style.animationName = "desappearV2"
-        scrollMenuBtn.style.transform = "rotate(0deg)"
-    }
+    appearDesappear(scrollMenu, "appearV3", "desappearV2")
+    appearDesappear(scrollMenuBtn, "rotateElement", "rotateElementReverse")
 })

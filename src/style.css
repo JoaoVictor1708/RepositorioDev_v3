@@ -184,6 +184,7 @@ body, html{
             align-items: center;
             padding: 8rem 5rem;
             margin: 5rem 0;
+            height: 100dvh;
 
             .aboutMe{
                 width: 100%;
@@ -347,6 +348,45 @@ body, html{
         .formations{
             width: 1024px;
         }
+
+        /* Mudando o scroll para das sessões e da sessão de projetos */
+        ::-webkit-scrollbar{
+            width: 0;
+            height: 0;
+        }
+
+        ::-webkit-scrollbar-track-piece{
+            background-color:transparent;
+        }
+
+        ::-webkit-scrollbar-thumb{
+            background-color: transparent;
+            height: 0;
+            width: 0;
+        }
+        .projects{
+            ::-webkit-scrollbar{
+                width: 0.75rem;
+                height: 0.75rem;
+                display: flex;
+            }
+
+            ::-webkit-scrollbar-track{
+                border-radius: 1.6rem;
+                outline: 0.2rem solid var(--gray02--);
+            }
+
+            ::-webkit-scrollbar-track-piece{
+                background-color: var(--gray02--);
+            }
+
+            ::-webkit-scrollbar-thumb{
+                background-color: #f2f2f2;
+                border-radius: 1.6rem;
+                height: 0.75rem;
+                width: 0.75rem;
+            }
+        }
     }
 }
 
@@ -385,6 +425,12 @@ body, html{
     color: #f2f2f2;
     cursor: pointer;
     z-index: 1;
+
+    animation-name: rotateElement;
+    animation-duration: 0.3s;
+    animation-timing-function: linear;
+    animation-fill-mode:forwards;
+    animation-direction: reverse;
 }
 
 /* Card Expandido */
@@ -584,5 +630,32 @@ body, html{
         opacity: 0;
         transform: translateY(2rem);
         display: none;
+    }
+}
+
+@keyframes desappearV3 {
+    from{
+        opacity: 1;
+    }
+    to{
+        opacity: 0;
+    }
+}
+
+@keyframes rotateElement {
+    from{
+        transform: rotate(135deg);
+    }
+    to{
+        transform: rotate(0);
+    }
+}
+
+@keyframes rotateElementReverse {
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(135deg);
     }
 }

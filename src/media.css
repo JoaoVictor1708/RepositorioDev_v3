@@ -89,10 +89,6 @@
                     background-color: var(--white02--);
                 }
             }
-            .accessibilitySection{
-                display: none;
-            }
-            justify-content: center;
         }
     }
 
@@ -118,6 +114,9 @@
                     max-height: 180px;
                     height: 180px;
                 }
+                flex-direction: column-reverse;
+                margin-top: 11rem;
+                overflow-y: scroll;
             }
         }
     }
@@ -135,47 +134,9 @@
                 width: 400px;
                 padding: 8rem 1rem;
             }
-            ::-webkit-scrollbar{
-                width: 0;
-                height: 0;
-            }
-
-            ::-webkit-scrollbar-track-piece{
-                background-color:transparent;
-            }
-
-            ::-webkit-scrollbar-thumb{
-                background-color: transparent;
-                height: 0;
-                width: 0;
-            }
-            .projects{
-                ::-webkit-scrollbar{
-                    width: 0.75rem;
-                    height: 0.75rem;
-                    display: flex;
-                }
-
-                ::-webkit-scrollbar-track{
-                    border-radius: 1.6rem;
-                    outline: 0.2rem solid var(--gray02--);
-                }
-
-                ::-webkit-scrollbar-track-piece{
-                    background-color: var(--gray02--);
-                }
-
-                ::-webkit-scrollbar-thumb{
-                    background-color: #f2f2f2;
-                    border-radius: 1.6rem;
-                    height: 0.75rem;
-                    width: 0.75rem;
-                }
-            }
             
             .services{
-                overflow-y: scroll;
-                
+                overflow-y: scroll; 
             }
             .apresentation{
                 margin-top: 11rem;
