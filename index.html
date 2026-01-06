@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RepositórioDev</title>
+    <title>PortifólioDev</title>
     <link rel="stylesheet" href="./src/style.css">
     <link rel="stylesheet" href="./src/media.css">
     <script type="module" defer src="./scripts/script.js"></script>
@@ -17,14 +17,14 @@
             <p class="logoName">João<strong>_</strong>Victor<strong>_</strong></p>
             <div class="headerSections">
                 <div class="guideSections">
-                    <input type="radio" name="headerRadio" id="headerRadio01" checked>
-                    <input type="radio" name="headerRadio" id="headerRadio02">
-                    <input type="radio" name="headerRadio" id="headerRadio03">
-                    <input type="radio" name="headerRadio" id="headerRadio04">
-                    <p id="headerAboutMeP">Sobre Mim <span></span></p>
-                    <p id="headerProjectsP">Projetos <span></span></p>
-                    <p id="headerServicesP">Serviços <span></span></p>
-                    <p id="headerFormationsP">Formações <span></span></p>
+                    <input type="radio" name="headerRadio" id="headerRadio01" data-section="apresentation" checked>
+                    <input type="radio" name="headerRadio" id="headerRadio02" data-section="projects">
+                    <input type="radio" name="headerRadio" id="headerRadio03" data-section="services">
+                    <input type="radio" name="headerRadio" id="headerRadio04" data-section="formations">
+                    <a id="headerAboutMeP" href="#apresentation" data-link="apresentation">Sobre Mim <span></span></a>
+                    <a id="headerProjectsP" href="#projects" data-link="projects">Projetos <span></span></a>
+                    <a id="headerServicesP" href="#services" data-link="services">Serviços <span></span></a>
+                    <a id="headerFormationsP" href="#formations" data-link="formations">Formações <span></span></a>
                     <p id="headerContactsP">Contatos <span></span></p>
                 </div>
                 <div class="accessibilitySection">
@@ -61,7 +61,7 @@
         </div>
     </header>
     <div class="content">
-        <div class="apresentation">
+        <div class="apresentation" id="apresentation">
             <div class="aboutMe">
                 <h1><span><</span>h1>Olá Mundo, me chamo João Victor<span><</span>/h1></h1>
                 <p>&nbsp Desenvolvedor FullStack de São Paulo-Brasil.
@@ -72,7 +72,7 @@
             </div>
             <img class="imgDev" src="./src/imgs/imageFromDevV2.png" alt="a image from the developer">
         </div>
-        <div class="projects">
+        <div class="projects" id="projects">
             <div class="projectsContainer">
                 <h2>Meus Projetos</h2>
                 <div class="scrollProjects" id="myProjectsContainer">
@@ -86,7 +86,7 @@
                 </div>
             </div>
         </div>
-        <div class="services">
+        <div class="services" id="services">
             <div class="serviceContainer">
                 <h2>Sites estáticos</h2>
                 <p>Desenvolvimento de sites rápidos, responsivos e visualmente atraentes, ideais para portfólios, páginas institucionais e apresentações profissionais.</p>
@@ -109,7 +109,7 @@
             </div>
             <span>Entre em contato e solicite seu orçamento sem compromisso.</span>
         </div>
-        <div class="formations">
+        <div class="formations" id="formations">
             <div class="formationContainer">
 
             </div>

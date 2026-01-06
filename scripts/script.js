@@ -46,7 +46,7 @@ myProjectsContainer.addEventListener("click", (event)=>{
     expandCard(targetId, myProjectsContainerArray)
 })
 
-//Função para click no card = expandir o card
+//Função para expandir o card
 function expandCard(targetId, fileArray){
     const indexCard = targetId
     
@@ -102,29 +102,34 @@ function expandCard(targetId, fileArray){
 }
 
 // scrollSections
-function changeToProjectsSection(){
-    document.querySelector(".scrollProjects").innerHTML = ""
-    loadDataCards(myProjectsContainer, myProjectsContainerArray)
-    document.querySelector("#headerRadio02").checked = true
-}
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        const radio = document.querySelector(
+        `input[type="radio"][data-section="${id}"]`
+      );
 
-document.querySelector(".seeMyProjectsBtn").addEventListener("click", ()=>changeToProjectsSection())
+      if (radio) {
+        radio.checked = true;
+      }
+    }
+    });
+  },
+  {
+    threshold: 0.6
+  }
+);
 
-document.querySelector("#headerAboutMeP").addEventListener("click", ()=>{
-    document.querySelector("#headerRadio01").checked = true
-})
+const apresentationSection = document.querySelector(".apresentation")
+const projectsSection = document.querySelector(".projects")
+const servicesSection = document.querySelector(".services")
+const formationsSection = document.querySelector(".formations")
+const sections = [apresentationSection, projectsSection, servicesSection, formationsSection]
+sections.forEach((section)=> observer.observe(section))
 
-document.querySelector("#headerProjectsP").addEventListener("click", ()=>changeToProjectsSection())
-
-document.querySelector("#headerServicesP").addEventListener("click", ()=>{
-    document.querySelector("#headerRadio03").checked = true
-})
-
-document.querySelector("#headerFormationsP").addEventListener("click", ()=>{
-    document.querySelector("#headerRadio04").checked = true
-})
-
-// appearDesappearFunction
+// toggleAnimationFunction
 function appearDesappear (item, animation1, animation2){
     if(item.classList[1] === "divActived"){
         item.classList.remove("divActived")

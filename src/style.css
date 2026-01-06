@@ -13,6 +13,8 @@ body, html{
     height: 100%;
     background-color: var(--white02--);
     overflow: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: y proximity;
 }
 
 :root{
@@ -83,7 +85,7 @@ body, html{
                 align-items: center;
                 gap: 3.8rem;
 
-                p{
+                a, p{
                     text-decoration: none;
                     color: var(--black01--);
                     display: flex;
@@ -94,7 +96,7 @@ body, html{
                     text-align: center;
                 }
 
-                p span{
+                a span{
                     width: 0;
                     height: 0.2rem;
                     background-color: var(--blue01--);
@@ -102,7 +104,7 @@ body, html{
                     border-radius: 0.8rem;
                 }
 
-                p:hover span{
+                a:hover span{
                     width: 100%;
                 }
 
@@ -192,6 +194,8 @@ body, html{
         width: 100%;
         position: relative;
         margin-bottom: 2rem;
+        padding-top: 7rem;
+        scroll-snap-align: start;
     }
 
     .apresentation{
@@ -238,7 +242,7 @@ body, html{
     }
 
     .projects{
-        padding: 1rem;
+        padding: 7rem 1rem 1rem;
         border-radius: 0.8rem;
         background-color: var(--white02--);
         flex-direction: column;
@@ -485,27 +489,27 @@ body, html{
 }
 
 /* Personalizando o scroll dos projetos */
-        ::-webkit-scrollbar{
-            width: 0.75rem;
-            height: 0.75rem;
-            display: flex;
-        }
+::-webkit-scrollbar{
+    width: 0.75rem;
+    height: 0.75rem;
+    display: flex;
+}
 
-        ::-webkit-scrollbar-track{
-            border-radius: 1.6rem;
-            outline: 0.2rem solid var(--gray02--);
-        }
+::-webkit-scrollbar-track{
+    border-radius: 1.6rem;
+    outline: 0.2rem solid var(--gray02--);
+}
 
-        ::-webkit-scrollbar-track-piece{
-            background-color: var(--gray02--);
-        }
+::-webkit-scrollbar-track-piece{
+    background-color: var(--gray02--);
+}
 
-        ::-webkit-scrollbar-thumb{
-            background-color: #e0e0e0;
-            border-radius: 1.6rem;
-            height: 0.75rem;
-            width: 0.75rem;
-        }
+::-webkit-scrollbar-thumb{
+    background-color: #e0e0e0;
+    border-radius: 1.6rem;
+    height: 0.75rem;
+    width: 0.75rem;
+}
 
 /* Keyframes */
 @keyframes toggleThemeAnimation {
