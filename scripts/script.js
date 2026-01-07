@@ -17,17 +17,14 @@ toggleTheme.addEventListener("click", ()=> {
     }
 })
 
-document.addEventListener("DOMContentLoaded", ()=>{
-    loadDataCards(myProjectsContainer, myProjectsContainerArray)
-})
-
 // dataCards
 function loadDataCards (destiny, fileArray){
     let cardDelay = 0.2
     for(let indexCard = 0; indexCard<fileArray.length; indexCard++){
+        const firstImage = fileArray[indexCard].images[0]
         const newCard = `
-            <div class="cardProject" style="animation-delay: ${cardDelay}s" id="${fileArray[indexCard].cardId}">
-                <img src="${fileArray[indexCard].imgUrl}" alt="${fileArray[indexCard].imgAlt}">
+            <div class="cardProject" style="animation-delay: ${cardDelay}s" id="${fileArray}-${fileArray[indexCard].cardId}">
+                <img src="${firstImage.url}" alt="${firstImage.alt}">
                 <h3><span></span>${fileArray[indexCard].title}</h3>
             </div>
         `
@@ -38,7 +35,12 @@ function loadDataCards (destiny, fileArray){
 
 // projectCards
 const myProjectsContainer = document.querySelector("#myProjectsContainer")
-loadDataCards(myProjectsContainer, myProjectsContainerArray)
+const technicalProjectsContainer = document.querySelector("#technicalProjectsContainer")
+
+document.addEventListener("DOMContentLoaded", ()=>{
+    loadDataCards(myProjectsContainer, myProjectsContainerArray)
+    loadDataCards(technicalProjectsContainer, technicalProjects)
+})
 
 myProjectsContainer.addEventListener("click", (event)=>{
     const target = event.target
@@ -46,9 +48,17 @@ myProjectsContainer.addEventListener("click", (event)=>{
     expandCard(targetId, myProjectsContainerArray)
 })
 
+technicalProjectsContainer.addEventListener("click", (event)=>{
+    const target = event.target
+    const targetId = target.closest("div").id
+    expandCard(targetId, technicalProjects)
+})
+
 //Função para expandir o card
 function expandCard(targetId, fileArray){
-    const indexCard = targetId
+    const indexCard = targetId.split('-').pop()
+    const project = fileArray[indexCard]
+    let currentImageIndex = 0
     
     const bodyCardExpanded = document.createElement("div")
     bodyCardExpanded.setAttribute("class", "bodyCardExpanded")
@@ -57,29 +67,220 @@ function expandCard(targetId, fileArray){
     cardDiv.setAttribute("class","cardExpanded")
 
     const cardTitle = document.createElement("h3")
-    cardTitle.textContent = fileArray[indexCard].title
+    cardTitle.textContent = project.title
+
+    // Image Carousel Container
+    const carouselContainer = document.createElement("div")
+    carouselContainer.setAttribute("class", "carouselContainer")
 
     const cardImg = document.createElement("img")
-    cardImg.setAttribute("src", fileArray[indexCard].imgUrl)
-    cardImg.setAttribute("alt", fileArray[indexCard].imgAlt)
+    cardImg.setAttribute("src", project.images[currentImageIndex].url)
+    cardImg.setAttribute("alt", project.images[currentImageIndex].alt)
+    cardImg.setAttribute("class", "carouselImage")
+    cardImg.style.cursor = "pointer"
+    
+    // Click image to open fullscreen carousel
+    cardImg.addEventListener("click", ()=> {
+        openFullscreenCarousel()
+    })
+    
+    carouselContainer.append(cardImg)
 
-    const cardDescription = document.createElement(`p`)
-    cardDescription.textContent = fileArray[indexCard].description
+    // Navigation Buttons (only if more than one image)
+    let indicatorsContainer;
+    if(project.images.length > 1){
+        const prevBtn = document.createElement("button")
+        prevBtn.setAttribute("class", "carouselBtn prevBtn")
+        prevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>'
+        prevBtn.addEventListener("click", (e)=> {
+            e.stopPropagation()
+            currentImageIndex = (currentImageIndex - 1 + project.images.length) % project.images.length
+            updateCarousel()
+        })
+
+        const nextBtn = document.createElement("button")
+        nextBtn.setAttribute("class", "carouselBtn nextBtn")
+        nextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>'
+        nextBtn.addEventListener("click", (e)=> {
+            e.stopPropagation()
+            currentImageIndex = (currentImageIndex + 1) % project.images.length
+            updateCarousel()
+        })
+
+        carouselContainer.append(prevBtn)
+        carouselContainer.append(nextBtn)
+
+        // Image Indicators/Dots
+        indicatorsContainer = document.createElement("div")
+        indicatorsContainer.setAttribute("class", "carouselIndicators")
+        
+        for(let i = 0; i < project.images.length; i++){
+            const dot = document.createElement("button")
+            dot.setAttribute("class", `indicatorDot ${i === 0 ? 'active' : ''}`)
+            dot.addEventListener("click", (e)=> {
+                e.stopPropagation()
+                currentImageIndex = i
+                updateCarousel()
+            })
+            indicatorsContainer.append(dot)
+        }
+        carouselContainer.append(indicatorsContainer)
+    }
+
+    // Function to update carousel display
+    function updateCarousel(){
+        cardImg.style.animationName = "carouselFadeOut"
+        cardImg.style.animationDuration = "0.3s"
+        cardImg.style.animationTimingFunction = "linear"
+        cardImg.style.animationFillMode = "forwards"
+        
+        setTimeout(() => {
+            cardImg.src = project.images[currentImageIndex].url
+            cardImg.alt = project.images[currentImageIndex].alt
+            
+            cardImg.style.animationName = "carouselFadeIn"
+            cardImg.style.animationDuration = "0.3s"
+            cardImg.style.animationTimingFunction = "linear"
+            cardImg.style.animationFillMode = "forwards"
+        }, 150)
+        
+        // Update active dot
+        if(indicatorsContainer){
+            const dots = indicatorsContainer.querySelectorAll(".indicatorDot")
+            dots.forEach((dot, index) => {
+                dot.classList.toggle("active", index === currentImageIndex)
+            })
+        }
+    }
+
+    // Fullscreen carousel function
+    function openFullscreenCarousel(){
+        const fullscreenCarouselBody = document.createElement("div")
+        fullscreenCarouselBody.setAttribute("class", "fullscreenCarouselBody")
+
+        const fullscreenContainer = document.createElement("div")
+        fullscreenContainer.setAttribute("class", "fullscreenCarouselContainer")
+
+        const fullscreenImg = document.createElement("img")
+        fullscreenImg.setAttribute("src", project.images[currentImageIndex].url)
+        fullscreenImg.setAttribute("alt", project.images[currentImageIndex].alt)
+        fullscreenImg.setAttribute("class", "fullscreenCarouselImage")
+        fullscreenContainer.append(fullscreenImg)
+
+        // Fullscreen prev button
+        const fullscreenPrevBtn = document.createElement("button")
+        fullscreenPrevBtn.setAttribute("class", "carouselBtn prevBtn")
+        fullscreenPrevBtn.innerHTML = '<i class="fa-solid fa-chevron-left"></i>'
+        fullscreenPrevBtn.addEventListener("click", (e)=> {
+            e.stopPropagation()
+            currentImageIndex = (currentImageIndex - 1 + project.images.length) % project.images.length
+            updateFullscreenImage()
+        })
+
+        // Fullscreen next button
+        const fullscreenNextBtn = document.createElement("button")
+        fullscreenNextBtn.setAttribute("class", "carouselBtn nextBtn")
+        fullscreenNextBtn.innerHTML = '<i class="fa-solid fa-chevron-right"></i>'
+        fullscreenNextBtn.addEventListener("click", (e)=> {
+            e.stopPropagation()
+            currentImageIndex = (currentImageIndex + 1) % project.images.length
+            updateFullscreenImage()
+        })
+
+        fullscreenContainer.append(fullscreenPrevBtn)
+        fullscreenContainer.append(fullscreenNextBtn)
+
+        // Fullscreen indicators
+        const fullscreenIndicators = document.createElement("div")
+        fullscreenIndicators.setAttribute("class", "carouselIndicators")
+        
+        for(let i = 0; i < project.images.length; i++){
+            const dot = document.createElement("button")
+            dot.setAttribute("class", `indicatorDot ${i === currentImageIndex ? 'active' : ''}`)
+            dot.addEventListener("click", (e)=> {
+                e.stopPropagation()
+                currentImageIndex = i
+                updateFullscreenImage()
+            })
+            fullscreenIndicators.append(dot)
+        }
+        fullscreenContainer.append(fullscreenIndicators)
+
+        function updateFullscreenImage(){
+            fullscreenImg.style.animationName = "carouselFadeOut"
+            fullscreenImg.style.animationDuration = "0.3s"
+            fullscreenImg.style.animationTimingFunction = "linear"
+            fullscreenImg.style.animationFillMode = "forwards"
+            
+            setTimeout(() => {
+                fullscreenImg.src = project.images[currentImageIndex].url
+                fullscreenImg.alt = project.images[currentImageIndex].alt
+                
+                fullscreenImg.style.animationName = "carouselFadeIn"
+                fullscreenImg.style.animationDuration = "0.3s"
+                fullscreenImg.style.animationTimingFunction = "linear"
+                fullscreenImg.style.animationFillMode = "forwards"
+                
+                updateFullscreenDots()
+            }, 150)
+        }
+
+        function updateFullscreenDots(){
+            const dots = fullscreenIndicators.querySelectorAll(".indicatorDot")
+            dots.forEach((dot, index) => {
+                dot.classList.toggle("active", index === currentImageIndex)
+            })
+        }
+
+        // Close button
+        const fullscreenClose = document.createElement("i")
+        fullscreenClose.setAttribute("class", "fa-solid fa-x")
+        fullscreenClose.style.position = "absolute"
+        fullscreenClose.style.top = "2rem"
+        fullscreenClose.style.right = "2rem"
+        fullscreenClose.style.fontSize = "2rem"
+        fullscreenClose.style.cursor = "pointer"
+        fullscreenClose.style.color = "white"
+        fullscreenClose.style.zIndex = "1000"
+        fullscreenClose.addEventListener("click", ()=> {
+            fullscreenCarouselBody.classList.add("exitAnimation")
+            setTimeout(() => {
+                fullscreenCarouselBody.remove()
+            }, 300)
+        })
+
+        fullscreenContainer.append(fullscreenClose)
+        fullscreenCarouselBody.append(fullscreenContainer)
+        document.body.append(fullscreenCarouselBody)
+
+        // Close on background click
+        fullscreenCarouselBody.addEventListener("click", (event)=> {
+            if(event.target === fullscreenCarouselBody){
+                fullscreenCarouselBody.classList.add("exitAnimation")
+                setTimeout(() => {
+                    fullscreenCarouselBody.remove()
+                }, 300)
+            }
+        })
+    }
+
+    const cardDescription = document.createElement("p")
+    cardDescription.textContent = project.description
 
     const cardClose = document.createElement("i")
     cardClose.setAttribute("class", "fa-solid fa-x")
 
     const cardtechnologies = document.createElement("div")
     cardtechnologies.setAttribute("class", "cardTechnologies")
-    for(let indexTechnologies = 0; indexTechnologies<fileArray[indexCard].technologies.length; indexTechnologies++){
+    for(let indexTechnologies = 0; indexTechnologies<project.technologies.length; indexTechnologies++){
         const technolgyUsed = document.createElement("p")
-        technolgyUsed.textContent = fileArray[indexCard].technologies[indexTechnologies]
-        technolgyUsed.setAttribute("class",`${fileArray[indexCard].technologies[indexTechnologies]}Class`)
+        technolgyUsed.textContent = project.technologies[indexTechnologies]
+        technolgyUsed.setAttribute("class",`${project.technologies[indexTechnologies]}Class`)
         cardtechnologies.append(technolgyUsed)
     }
 
     cardDiv.append(cardTitle)
-    cardDiv.append(cardImg) 
+    cardDiv.append(carouselContainer) 
     cardDiv.append(cardtechnologies)
     cardDiv.append(cardDescription)
     cardDiv.append(cardClose)
